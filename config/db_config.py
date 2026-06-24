@@ -25,7 +25,7 @@ async def get_db():
             yield session               # 挂起并将当前会话注入路由 / Yield session context to the router
             await session.commit()      # 正常执行完毕，提交事务 / Commit transaction on success
         except Exception:
-            await session.rollback()    # 捕获异常，执行事务回滚 / Rollback transaction on exception
+            await session.rollback()    # 捕获异常 ，执行事务回滚 / Rollback transaction on exception
             raise                       # 抛出异常供全局捕获 / Re-raise the exception for global handling
         finally:
             await session.close()       # 周期结束，释放连接回连接池 / Release connection back to the pool
