@@ -6,5 +6,5 @@ from fastapi import APIRouter
 router = APIRouter(prefix="/api/users",tags=["users"])
 
 @router.get("/setting")
-async def get_catagories():
+async def get_categories():
     return{"msg":"获取设置成功"}
