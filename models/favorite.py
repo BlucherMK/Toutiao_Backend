@@ -23,10 +23,10 @@ class Favorite(Base):
         Index('fk_favorite_news_idx', 'news_id'),
     )
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True, comment="浏览ID")
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True, comment="收藏ID")
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey(User.id), nullable=False, comment="用户")
     news_id: Mapped[int] = mapped_column(Integer, ForeignKey(News.id), nullable=False, comment="新闻")
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False, comment="浏览时间")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False, comment="收藏时间")
 
     def __repr__(self):
         return f"<Favorite(id={self.id},user_id={self.user_id}, news_id={self.news_id}, created_at={self.created_at})>"
