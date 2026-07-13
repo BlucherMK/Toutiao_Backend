@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # 导入浏览记录的数据模型 / Import the data model for History
@@ -51,3 +51,13 @@ async def get_history_list(
     result = await db.execute(query)
     rows = result.all()
     return rows, total
+
+async def delete_history(
+        db: AsyncSession,
+        user_id: int,
+        news_id: int
+):
+    stmt = delete(History).where(History.user_id == user_id, History.news_id == news_id)
+    result = await db.execute(stmt)
+    await db.commit()
+    return result.rowcount > 0 
