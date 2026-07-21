@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from config.db_conf import get_db
 from crud import news
+from crud import news_cache
 
 # 创建 APIRouter 实例 / Create APIRouter instance
 # prefix: 路由统一前缀 / Unified route prefix
@@ -26,7 +27,7 @@ async def get_categories(
     # 获取新闻分类列表 / Get the list of news categories
     # - skip: 跳过的记录数（用于基础分页） / Number of records to skip (for basic pagination)
     # - limit: 最大返回数量 / Maximum number of records to return
-    categories = await news.get_categories(db, skip, limit)
+    categories = await news_cache.get_categories(db, skip, limit)
     
     # 构造并返回标准 JSON 响应 / Construct and return standard JSON response
     return {
@@ -47,7 +48,7 @@ async def get_news_list(
     offset = (page - 1) * page_size
     
     # 查询当前页的新闻数据 / Query news data for the current page
-    news_list = await news.get_news_list(db, category_id, offset, page_size)
+    news_list = await news_cache.get_news_list(db, category_id, offset, page_size)
 
     total = await news.get_news_count(db, category_id)
     has_more = (offset + len(news_list)) < total  
